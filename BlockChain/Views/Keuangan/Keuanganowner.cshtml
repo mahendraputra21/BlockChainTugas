@@ -1,0 +1,68 @@
+﻿@model IEnumerable<BlockChain.Models.TransaksiKeuangan>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keuangan - Cookies</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/ownerkeuangan.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+    <partial name="Sidebar" /> <!-- Updated partial tag -->
+
+    <div class="dashboard-wrapper">
+        <div class="main-content">
+            <h2 class="title">Histori Transaksi Keuangan</h2>
+
+            <div class="table-section">
+                <h3>Data Transaksi</h3>
+                <div class="table-container">
+                    <div class="filter-bar">
+                        <div class="search-wrapper">
+                            <i class="fa fa-search search-icon"></i>
+                            <input type="text" placeholder="Pencarian" class="search-input" />
+                        </div>
+                        <button class="date-filter"><i class="fa fa-calendar"></i> Tanggal</button>
+                        <button class="filter-button"><i class="fa fa-filter"></i> Filter</button>
+                    </div> 
+                    <table class="transaction-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tanggal</th>
+                                <th>Deskripsi</th>
+                                <th>Kategori</th>
+                                <th>Jumlah</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var transaksi in Model)
+                            {
+                                <tr>
+                                    <td>@transaksi.Id</td>
+                                    <td>@transaksi.Tanggal.ToString("dd-MM-yyyy")</td>
+                                    <td>@transaksi.Deskripsi</td>
+                                    <td>@transaksi.Kategori</td>
+                                    <td class="@(transaksi.IsPemasukan ? "income" : "expense")">
+                                        @(transaksi.IsPemasukan ? "+" : "-")Rp@transaksi.Jumlah.ToString("N0")
+                                    </td>
+                                    <td><button class="detail-button">Detail</button></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

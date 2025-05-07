@@ -1,0 +1,64 @@
+﻿@model List<BlockChain.Models.ProdukGudang>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gudang</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/ownergudang.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <partial name="Sidebar" /> <!-- Updated partial tag -->
+
+    <div class="dashboard-wrapper">
+        <div class="main-content">
+            <h2 class="title">Gudang</h2>
+            <div class="table-section">
+                <h3>Data Barang Gudang</h3>
+                <div class="table-container">
+                    <div class="filter-bar">
+                        <div class="search-wrapper">
+                            <i class="fa fa-search search-icon"></i>
+                            <input type="text" placeholder="Pencarian Produk..." class="search-input" />
+                        </div>
+                        <button class="date-filter"><i class="fa fa-calendar"></i> Tanggal</button>
+                        <button class="filter-button"><i class="fa fa-filter"></i> Filter</button>
+                    </div>
+                    <table class="transaction-table">
+                        <thead>
+                            <tr>
+                                <th>Kode Produk</th>
+                                <th>Nama Produk</th>
+                                <th>Kategori Produk</th>
+                                <th>Stok</th>
+                                <th>Tanggal Masuk</th>
+                                <th>Tanggal Expired</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.KodeProduk</td>
+                                    <td>@item.NamaProduk</td>
+                                    <td>@item.KategoriProduk</td>
+                                    <td>@item.Stok</td>
+                                    <td>@item.TanggalMasuk.ToString("dd MMMM yyyy")</td>
+                                    <td>@item.TanggalExpired.ToString("dd MMMM yyyy")</td>
+                                    <td><a href="#"><i class="fas fa-external-link-alt"></i></a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

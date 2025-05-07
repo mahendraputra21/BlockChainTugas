@@ -1,0 +1,49 @@
+﻿@{
+    // Handle potential null values in route data
+    string currentController = (ViewContext.RouteData.Values["controller"]?.ToString()) ?? "";
+    string currentAction = (ViewContext.RouteData.Values["action"]?.ToString()) ?? "";
+}
+
+<div class="sidebar">
+    <div class="logo">
+        <img src="~/images/Logo.png" alt="Logo Cookies" />
+    </div>
+    <ul class="nav-links">
+        <!-- Menu items unchanged -->
+    </ul>
+</div>
+
+<!-- Modal Logout -->
+<div id="logoutModal" class="modal">
+    <div class="modal-content">
+        <p>Apakah Anda yakin ingin logout?</p>
+        <div class="modal-buttons">
+            <button onclick="closeLogoutModal()">Batal</button>
+            <a href="@Url.Action("Logout", "Account")" class="confirm-logout">Logout</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirmLogout(event) {
+        event?.preventDefault();
+        const modal = document.getElementById("logoutModal");
+        if (modal) {
+            modal.style.display = "block";
+        }
+    }
+
+    function closeLogoutModal() {
+        const modal = document.getElementById("logoutModal");
+        if (modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    window.onclick = function (event) {
+        const modal = document.getElementById("logoutModal");
+        if (event.target === modal && modal) {
+            modal.style.display = "none";
+        }
+    };
+</script>

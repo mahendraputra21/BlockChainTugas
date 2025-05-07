@@ -1,0 +1,157 @@
+﻿@model IEnumerable<BlockChain.Models.Pengguna>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <title>Pengguna - Cookies</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/pengguna.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+    <partial name="Sidebar" /> <!-- Updated partial tag -->
+
+    <div class="dashboard-wrapper">
+        <div class="main-content">
+            <h2 class="title">Manajemen Pengguna</h2>
+
+            <div class="table-section">
+                <button class="add-button" onclick="openAddModal()"><i class="fa fa-plus"></i> Tambah</button>
+                <div class="table-container">
+                    <div class="filter-bar" style="justify-content: space-between;">
+                        <div class="search-wrapper">
+                            <i class="fa fa-search search-icon"></i>
+                            <input type="text" placeholder="Cari pengguna..." class="search-input" />
+                        </div>
+                    </div>
+
+                    <table class="transaction-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Nama Toko</th>
+                                <th>Password</th>
+                                <th>Role</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var pengguna in Model)
+                            {
+                                <tr>
+                                    <td>@pengguna.Id</td>
+                                    <td>@pengguna.Username</td>
+                                    <td>@pengguna.NamaToko</td>
+                                    <td>@pengguna.Password</td>
+                                    <td>@pengguna.Role</td>
+                                    <td>
+                                        <button class="edit-button" onclick="openEditModal(@pengguna.Id)"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button class="delete-button" onclick="confirmDelete(@pengguna.Id)"><i class="fa-solid fa-trash-can"></i></button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal Tambah/Edit -->
+            <div class="modal" id="userModal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <h3 id="modalTitle">Tambah Pengguna</h3>
+                    <form id="userForm" method="post" asp-action="Tambah">
+                        <input type="hidden" id="userId" name="Id" />
+
+                        <label for="Username">Username</label>
+                        <input type="text" id="Username" name="Username" required />
+
+                        <label for="NamaToko">Nama Toko</label>
+                        <input type="text" id="NamaToko" name="NamaToko" required />
+
+                        <label for="Password">Password</label>
+                        <input type="password" id="Password" name="Password" required />
+
+                        <label for="Role">Role</label>
+                        <select id="Role" name="Role" required>
+                            <option value="">-- Pilih Role --</option>
+                            <option value="Distributor">Distributor</option>
+                            <option value="Gudang">Gudang</option>
+                            <option value="Keuangan">Keuangan</option>
+                        </select>
+
+                        <button type="submit" class="save-button">Simpan</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Konfirmasi Hapus -->
+            <div class="modal" id="confirmModal">
+                <div class="modal-content">
+                    <p>Apakah Anda yakin ingin menghapus pengguna ini?</p>
+                    <button onclick="deleteConfirmed()" class="confirm-delete">Ya</button>
+                    <button onclick="closeConfirmModal()" class="cancel-delete">Batal</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Modal Handling
+        function openAddModal() {
+            document.getElementById("userForm").reset();
+            document.getElementById("modalTitle").innerText = "Tambah Pengguna";
+            document.getElementById("userModal").style.display = "block";
+        }
+
+        function openEditModal(id) {
+            // Implement AJAX call to fetch user data here
+            document.getElementById("modalTitle").innerText = "Edit Pengguna";
+            document.getElementById("userId").value = id;
+            document.getElementById("userModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("userModal").style.display = "none";
+        }
+
+        // Delete Confirmation
+        let deleteId = 0;
+        function confirmDelete(id) {
+            deleteId = id;
+            document.getElementById("confirmModal").style.display = "block";
+        }
+
+        function deleteConfirmed() {
+            window.location.href = '/Pengguna/Hapus/' + deleteId;
+        }
+
+        function closeConfirmModal() {
+            document.getElementById("confirmModal").style.display = "none";
+        }
+
+        // Form Validation
+        document.getElementById("userForm").addEventListener("submit", function (e) {
+            const role = document.getElementById("Role").value;
+            const namaToko = document.getElementById("NamaToko").value;
+
+            if (role === "Distributor" && namaToko.trim() === "") {
+                alert("Nama Toko wajib diisi untuk Distributor.");
+                e.preventDefault();
+            }
+        });
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.className === "modal") {
+                event.target.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
