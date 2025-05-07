@@ -10,6 +10,6 @@ namespace BlockChain.Models
 
         public DbSet<User> Users { get; set; }
 
-        public DbSet<Pengguna> Penggunas { get; set; }  // <-- Tambahkan ini
+        //public DbSet<Pengguna> Penggunas { get; set; }  // <-- Tambahkan ini
     }
 }

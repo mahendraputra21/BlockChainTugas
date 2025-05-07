@@ -137,7 +137,7 @@ namespace BlockChain.Controllers
                 NamaToko = model.NamaToko ?? "",
                 Password = model.KataSandi ?? ""
             };
-            _context.Penggunas.Add(pengguna);
+            //_context.Penggunas.Add(pengguna);
 
             await _context.SaveChangesAsync();
 
